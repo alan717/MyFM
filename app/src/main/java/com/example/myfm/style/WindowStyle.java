@@ -1,5 +1,6 @@
 package com.example.myfm.style;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class WindowStyle extends UpdateableStyleBase {
@@ -81,7 +82,7 @@ public class WindowStyle extends UpdateableStyleBase {
 
 
 
-    public void WindowStyle(String p0){
+    public   WindowStyle(String p0){
         super(p0);
         this.fScaleStartWidth = 0;
         this.fScaleStartHeight = -1;
@@ -114,14 +115,14 @@ public class WindowStyle extends UpdateableStyleBase {
         Object[] objectArray2;
         Object oget = p1.get(p0);
         if (oget instanceof JSONArray) {
-            int ilength = oget.length();
+            int ilength = ((JSONArray)oget).length();
             if (ilength >= p2 && ilength <= p3) {
                 int[] ointArray = new int[ilength];
                 for (vi = 0; vi < ilength; vi = vi+1) {
                     objectArray = new Object[2];
                     objectArray[0] = p0;
                     objectArray[1] = Integer.valueOf(vi);
-                    ointArray[vi] = this.asNumber(String.format("%s[%d]", objectArray), oget.get(vi)).intValue();
+                    ointArray[vi] = this.asNumber(String.format("%s[%d]", objectArray), ((JSONArray)oget).get(vi)).intValue();
                 }
                 return ointArray;
             }else {
