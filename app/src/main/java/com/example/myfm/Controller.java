@@ -5,20 +5,24 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.example.myfm.bridge.IBridge;
+import com.example.myfm.command.WM;
 import com.example.myfm.style.CompositeStyleChangedListener;
 import com.example.myfm.style.IStyleChangedListener;
+import com.example.myfm.style.WindowStyleManager;
 import com.example.myfm.utils.ILog;
 import com.example.myfm.utils.Logger;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
 public class Controller implements IBridge, ILog {
+    private String fGivenName;
     public String CONTENT_VIEW_TAG;
     protected IBridge fBridge;
     protected View fContentView;
@@ -28,9 +32,13 @@ public class Controller implements IBridge, ILog {
     protected Handler fHandler;
     protected Logger fLog;
     private Controller fOwner;
+    private Controller fParent;
     private CompositeStyleChangedListener fStyleListener;
     protected MainActivity fMain;
     protected FrameLayout fContentViewFrame;
+    protected WindowStyleManager fStyleManager;
+
+    protected AllPreferences fPrefs;
 
     public   Controller(){
         this.CONTENT_VIEW_TAG = new StringBuilder()+"content.view."+this.getClass().getName();
@@ -120,12 +128,36 @@ public class Controller implements IBridge, ILog {
         this.fMain = p1;
         this.setGivenName(p0);
         this.fStyleListener = new CompositeStyleChangedListener(this.fLog);
-        this.fStyleListener.addListener(new Controller$1(this), 1001);
+        this.fStyleListener.addListener(new ControllerListener(this), 1001);
         this.fStyleManager = new WindowStyleManager(p0);
         this.fStyleManager.setStyleChangedListener(this.fStyleListener);
     }
 
     public void setGivenName(String p0){
         this.fLog = Logger.getLogger(new StringBuilder()+p0+".c");
+    }
+
+    public void buildView(){
+        this.fPrefs = AllPreferences.INSTANCE;
+    }
+    public MainActivity getMain(){
+        return this.fMain;
+    }
+
+    public String getGivenName(){
+        return this.fGivenName;
+    }
+    protected void hideGrouped(){
+        Object[] objectArray;
+        WM wInstance = WM.getInstance();
+        Iterator<Controller> iiterator = this.fGroup.iterator();
+        while (iiterator.hasNext()) {
+            objectArray = new Object[1];
+            objectArray[0] = iiterator.next().getGivenName();
+            wInstance.hide(objectArray);
+        }
+    }
+    public Controller getParent(){
+        return this.fParent;
     }
 }

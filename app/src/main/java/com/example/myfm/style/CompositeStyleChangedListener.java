@@ -2,11 +2,13 @@ package com.example.myfm.style;
 
 import android.view.View;
 
+import com.example.myfm.utils.Logger;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
+
 
 public class CompositeStyleChangedListener  implements IStyleChangedListener {
     private List<StyleChangedWrapper> fListeners;
