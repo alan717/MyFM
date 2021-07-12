@@ -3,6 +3,8 @@ package com.example.myfm.view;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
+import com.example.myfm.Sign;
+
 import java.net.URL;
 import java.util.Date;
 
@@ -37,8 +39,8 @@ public class HighlightableWebListener implements MenuItem.OnMenuItemClickListene
                 sFile = new StringBuilder().append("image-").append(new Date().getTime()).toString();
             }
             Void[] voidArray = new Void[0];
-            new HighlightableWeb$SaveImageClass(this.this$0, sFile, wHitTestResu.getExtra()).execute(voidArray);
-        }catch(java.net.MalformedURLException e-1){
+            new HighlightableWebSaveImageClass(this.this$0, sFile, wHitTestResu.getExtra()).execute(voidArray);
+        }catch(java.net.MalformedURLException e){
             new Sign(this.this$0.getContext(), new StringBuilder().append("Invalid URL ").append(wHitTestResu.getExtra()).toString()).error();
         }
         return v0;

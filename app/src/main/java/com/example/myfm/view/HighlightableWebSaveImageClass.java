@@ -2,11 +2,12 @@ package com.example.myfm.view;
 
 import android.os.AsyncTask;
 
+import com.example.myfm.Sign;
+
 public class HighlightableWebSaveImageClass extends AsyncTask {
     private final String fFileName;
     private final String fUrl;
     final HighlightableWeb this$0;
-    public static final int REQUEST_CODE_EXTERNAL_STORAGE;
 
 
     public HighlightableWebSaveImageClass(String fFileName, String fUrl, HighlightableWeb this$0) {
