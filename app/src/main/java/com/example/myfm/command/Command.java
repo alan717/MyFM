@@ -93,13 +93,12 @@ public class Command {
     }
     public void setSelf(Controller p0){
         this.fSelf = p0;
-        if (p0) {
+        if (p0!=null) {
             this.setMain(p0.getMain());
             this.fLog = Logger.getLogger(new StringBuilder()+this.fSelf.getGivenName()+".cmd");
         }else {
             this.fLog = Logger.getLogger("main.cmd");
         }
-        return;
     }
 
 }

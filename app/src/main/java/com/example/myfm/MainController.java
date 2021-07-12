@@ -1,5 +1,6 @@
 package com.example.myfm;
 
+import android.content.Intent;
 import android.webkit.WebView;
 
 public class MainController  extends Controller{
@@ -55,5 +56,47 @@ public class MainController  extends Controller{
     public WebView getWebView(){
         return this.fWebView;
     }
+    static void access$000(MainController p0,String p1){
+        p0.openURL(p1);
+    }
 
+    private void openURL(String p0){
+        Intent iIntent;
+        if ((iIntent = Utils.toPlayStoreIntent(p0)) != null) {
+            this.fMain.startActivity(iIntent);
+            this.fMain.overridePendingTransition(2130772009, 2130772009);
+            return;
+        }else if(this.fPrefs.useChromeCustomTabs() && p0 && p0.indexOf("youtube.com") == -1){
+                this.openCustomTab(p0);
+        }else {
+            iIntent = new Intent("android.intent.action.VIEW");
+            iIntent.setData(Uri.parse(p0));
+            this.fMain.startActivity(iIntent);
+        }
+        return;
+    }
+    private void openCustomTab(String p0){
+        String sPackageName;
+        try{
+            CustomTabsIntent$Builder builder = new CustomTabsIntent$Builder();
+            builder.setToolbarColor(Color.parseColor("#FCFCFC"));
+            builder.setShowTitle(true);
+            builder.setActionButton(BitmapFactory.decodeResource(this.fMain.getResources(), 2131165269), "Share", this.createPendingIntent());
+            builder.enableUrlBarHiding();
+            builder.setCloseButtonIcon(BitmapFactory.decodeResource(this.fMain.getResources(), 2131165333));
+            builder.setStartAnimations(this.fMain, 2130772007, 2130772011);
+            builder.setExitAnimations(this.fMain, 2130772011, 2130772010);
+            if ((sPackageName = CustomTabsHelper.getPackageNameToUse(this.fMain)) == null) {
+                sPackageName = "com.android.chrome";
+            }
+            CustomTabsIntent cbuild = builder.build();
+            cbuild.intent.setPackage(sPackageName);
+            cbuild.launchUrl(this.fMain, Uri.parse(p0));
+        }catch(android.content.ActivityNotFoundException e-1){
+            Intent intent = new Intent("android.intent.action.VIEW");
+            intent.setData(Uri.parse(p0));
+            this.fMain.startActivity(intent);
+        }
+        return;
+    }
 }
