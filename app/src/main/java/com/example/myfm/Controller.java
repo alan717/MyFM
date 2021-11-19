@@ -2,18 +2,22 @@ package com.example.myfm;
 
 import android.os.Handler;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
 
 import com.example.myfm.bridge.IBridge;
 import com.example.myfm.command.WM;
 import com.example.myfm.style.CompositeStyleChangedListener;
 import com.example.myfm.style.IStyleChangedListener;
+import com.example.myfm.style.LayerStyle;
 import com.example.myfm.style.WindowStyleManager;
 import com.example.myfm.utils.ILog;
 import com.example.myfm.utils.Logger;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -159,5 +163,27 @@ public class Controller implements IBridge, ILog {
     }
     public Controller getParent(){
         return this.fParent;
+    }
+
+    protected void configWebView(WebView p0){
+        Object[] objectArray;
+        p0.setBackgroundColor(this.fPrefs.themedBackgroundColorValue());
+        p0.getSettings().setJavaScriptEnabled(true);
+        p0.getSettings().setDatabaseEnabled(true);
+        p0.getSettings().setTextZoom(100);
+        p0.getSettings().setDomStorageEnabled(true);
+        p0.getSettings().setPluginState(WebSettings.PluginState.ON);
+        p0.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        p0.getSettings().setJavaScriptCanOpenWindowsAutomatically(false);
+        p0.getSettings().setDisplayZoomControls(false);
+        p0.getSettings().setEnableSmoothTransition(true);
+        p0.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        String sstr = this.fMain.getFilesDir()+ File.separator+"local.db";
+        p0.getSettings().setDatabasePath(sstr);
+        objectArray = new Object[2];
+        objectArray[0] = "dbPath: ";
+        objectArray[1] = sstr;
+        this.fLog.i(objectArray);
+        LayerStyle.forView(p0).update();
     }
 }

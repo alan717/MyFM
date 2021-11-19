@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageInstaller;
+import android.graphics.Color;
 import android.util.DisplayMetrics;
 
 import com.example.myfm.utils.Logger;
@@ -104,5 +105,14 @@ public class AllPreferences implements SharedPreferences.OnSharedPreferenceChang
         }
         seditor.commit();
     }
-
+    public int themedBackgroundColorValue(){
+        return Color.parseColor(this.themedBackgroundColor());
+    }
+    public String themedBackgroundColor(){
+        String str = ("black".equals(this.getTheme()))? "#000000": "#ffffff";
+        return str;
+    }
+    public String getTheme(){
+        return this.fPrefs.getString("feedly_theme", "white");
+    }
 }

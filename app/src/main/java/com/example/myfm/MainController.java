@@ -20,7 +20,7 @@ public class MainController  extends Controller{
         Object[] objectArray;
         super.buildView();
         if (this.fWebView == null) {
-            this.fWebView = new MainController$1(this, this.fMain);
+            this.fWebView = new HighlightableWebController(this, this.fMain);
             int vi = 0;
             this.fWebView.setScrollBarStyle(vi);
             this.fWebView.setTag(this.getGivenName());
